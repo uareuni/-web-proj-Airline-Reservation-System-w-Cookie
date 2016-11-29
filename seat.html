@@ -1,0 +1,115 @@
+<html>
+    <head>
+      <meta charset="UTF-8" />
+      <link rel="stylesheet" type="text/css" href="general.css">
+      <!-- Latest compiled and minified CSS -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+      <!-- Optional theme -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    </head>
+
+    <body >
+
+
+      <h1 id="title" sylte="text-align: center;"> Choose your seat preference </h1> <br />
+
+      <!-- Side select -->
+      <div class="btn-group btn-group-justified" role="group" aria-label="...">
+          <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default" id='window_side' onclick="onSideBtnClicked('Window_Side')">Window Side</button>
+          </div>
+          <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default" id="aisle_side" onclick="onSideBtnClicked('Aisle_Side')">Aisle Side</button>
+          </div>
+          <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default" id="center_side" onclick="onSideBtnClicked('Center_Side')">Center Side</button>
+          </div>
+      </div> <br /><br />
+
+      <script>
+              function onSideBtnClicked(id_val)
+              {
+                setCookie('side', id_val, 365);
+              }
+      </script>
+
+
+      <!-- Plain select -->
+      <div class="btn-group btn-group-justified" role="group" aria-label="...">
+          <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default" onclick="onPlainBtnClicked('Front')">Front of Plain</button>
+          </div>
+          <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default" onclick="onPlainBtnClicked('Middle')">Middle of Plain</button>
+          </div>
+          <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default" onclick="onPlainBtnClicked('Back')">Back of Plain</button>
+          </div>
+      </div>
+
+
+      <script>
+              function onPlainBtnClicked(id_val)
+              {
+                setCookie('location', id_val, 365);
+              }
+      </script>
+
+
+      <!-- next -->
+      <form action="dish.html">
+          <button type="submit" class="btn btn-default navbar-btn"> Next </button>
+      </form>
+
+      <script>
+        window.onload = pageLoad; // page가 load될때 불리도록 처리
+
+        function pageLoad()
+        {
+          var username = getCookie('username');
+          var password = getCookie('password');
+
+          if((username == "") || (password == ""))
+          {
+            alert('username 혹은 password 값이 없습니다.');
+          }else
+          {
+            //document.getElementById('title').value = '재방문 하셨죠?';
+            if(getCookie('newbie') == 'true')
+            {
+              alert(username + '님 첫 방문을 환영합니다!' + '\n' + '\n'
+                  + 'username : ' + username + '\n'
+                  + 'password : ' + password);
+              setCookie('newbie', 'false', 365);
+
+            } else
+            {
+              alert(username + '님 재방문을 환영합니다!' + '\n' + '\n'
+                  + 'username : ' + username + '\n'
+                  + 'password : ' + password);
+
+            }
+          }
+
+          // redirect
+
+          if(isRedirectable('username', 'password') == "false")
+          {
+              // Cookie값을 조사해서 미입력된 phase로 redirect
+              setTimeout('redirectPhase()', 300);
+          } else if(isRedirectable('side', 'location') != "false")
+          {
+              // Cookie값을 조사해서 미입력된 phase로 redirect
+              setTimeout('redirectPhase()', 300);
+          }
+
+
+        }
+
+      </script>
+
+
+      <script src="CookieUtilities.js"></script>
+    </body>
+
+</html>

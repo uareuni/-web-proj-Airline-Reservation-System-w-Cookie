@@ -1,0 +1,85 @@
+<html>
+  <head>
+    <meta charset = "UTF-8" />
+    <link rel="stylesheet" type="text/css" href="login.css">
+  </head>
+
+  <!-- 0.3초 delay후 cookie값이 없는 phase로 redirect -->
+  <body>
+
+    <div class="login-page">
+      <div class="form">
+
+        <h3> KB Airline Revervation System </h3>
+
+        <form class="login-form" action="seat.html">
+          <input type="text" id="username" placeholder="username"/>
+          <input type="password" id="password" placeholder="password"/>
+          <button id="login">login</button>
+
+          <script>
+          var login = document.getElementById('login');
+          login.addEventListener('click', function()
+          {
+              // user가 입력한 username, password 받아오기
+              var uname = document.getElementById('username').value;
+              var pw = document.getElementById('password').value;
+
+              if(isExistCookie() == 'true') // 기존 쿠키파일 존재하는 경우
+              {
+                  // 이 경우 재방문자
+                  setCookie('newbie', 'false', 365);
+              }
+              else // 기존 쿠키파일 존재 X 경우
+              {
+                  // 새로운 쿠키파일 생성
+                  setCookie('username', uname, 365);
+                  setCookie('password', pw, 365);
+                  setCookie('newbie', 'true', 365);
+              }
+          });
+
+
+          window.onload = pageLoad; // page가 load될때 불리도록 처리
+          function pageLoad()
+          {
+            if(getCookie('username') != "")
+            {
+                document.getElementById('username').value = unescape(getCookie('username')); // Cookie에 저장되 있는 username value를 set // unescape : 불러올때 한글깨짐 방지
+            }
+
+            if(getCookie('password') != "")
+            {
+                document.getElementById('password').value = unescape(getCookie('password')); // Cookie에 저장되 있는 password value를 set // unescape : 불러올때 한글깨짐 방지
+            }
+            // redirect
+            if(isRedirectable('username', 'password') != "false")
+            {
+                // Cookie값을 조사해서 미입력된 phase로 redirect
+                setTimeout('redirectPhase()', 300);
+            }
+          }
+
+          </script>
+
+          <p class="message">Not registered? <a href="#">Create an account</a></p>
+        </form>
+
+        <form class="register-form">
+          <input type="text" placeholder="name"/>
+          <input type="password" placeholder="password"/>
+          <input type="text" placeholder="email address"/>
+          <button>create</button>
+          <p class="message">Already registered? <a href="#">Sign In</a></p>
+        </form>
+
+
+      </div>
+    </div>
+
+    <!-- Loading the JS file -->
+    <script src="CookieUtilities.js"></script>
+
+  </body>
+
+</html>
